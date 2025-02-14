@@ -28,6 +28,9 @@ const LoginBox = () => {
           type="password"
           className="p-2 w-64 md:w-96 rounded-lg"
         />
+        <p className="text-xs text-slate-500 flex gap-2">
+          忘記密碼了嗎？<p className="text-blue-800 cursor-pointer">忘記密碼</p>
+        </p>
       </label>
       <button className="py-4 px-14 bg-teal-700 text-white text-xs rounded-lg hover:drop-shadow-xl hover:px-16 transition-all duration-300 ease-in-out">
         登入
