@@ -5,8 +5,13 @@ const RegisterBox = () => {
   return (
     <form
       action=""
-      className="bg-slate-100 flex flex-col gap-4 p-5 py-12 items-center rounded-lg"
+      className="bg-slate-100 flex flex-col gap-4 p-5 py-12 items-center rounded-lg drop-shadow-2xl"
     >
+      <h1 className="text-2xl font-bold tracking-widest drop-shadow-xl">
+        服務學習
+        <br />
+        整合平台
+      </h1>
       <h1 className="text-xl font-bold">註冊</h1>
       <label htmlFor="username" className="flex flex-col text-sm gap-1">
         <p className="text-xs text-slate-500">使用者名稱 / 電子信箱</p>
@@ -32,7 +37,7 @@ const RegisterBox = () => {
           className="p-2 w-64 md:w-96 rounded-lg"
         />
       </label>
-      <button className="py-4 px-14 bg-teal-700 text-white text-xs rounded-lg">
+      <button className="py-4 px-14 bg-teal-700 text-white text-xs rounded-lg hover:drop-shadow-xl hover:px-16 transition-all duration-300 ease-in-out">
         註冊
       </button>
       <div className="text-xs flex flex-col items-center gap-2">
