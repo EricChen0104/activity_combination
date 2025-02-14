@@ -37,7 +37,7 @@ const Navbar = () => {
           className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
       hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
         >
-          登入
+          登入 / 註冊
         </Link>
         <Link
           to="/"
@@ -76,7 +76,7 @@ const Navbar = () => {
           className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
       hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
         >
-          登入
+          登入 / 註冊
         </Link>
         <Link
           to="/"

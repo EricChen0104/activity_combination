@@ -7,6 +7,7 @@ import Login from "./routes/Login";
 import About from "./routes/About";
 import AboutAuthor from "./routes/AboutAuthor";
 import MainLayout from "./layouts/MainLayout";
+import Register from "./routes/Register";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/aboutauthor",
         element: <AboutAuthor />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

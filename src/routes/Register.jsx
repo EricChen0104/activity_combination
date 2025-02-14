@@ -1,12 +1,12 @@
 import React from "react";
-import LoginBox from "../components/LoginBox";
+import RegisterBox from "../components/RegisterBox";
 
-const Login = () => {
+const Register = () => {
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <LoginBox />
+      <RegisterBox />
     </div>
   );
 };
 
-export default Login;
+export default Register;
