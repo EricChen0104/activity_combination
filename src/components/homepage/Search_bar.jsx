@@ -2,7 +2,7 @@ import React from "react";
 import { IoSearch } from "react-icons/io5";
 const search_bar = () => {
   return (
-    <div className="z-10 w-full flex flex-col py-6 px-12 shadow-xl bg-yellow-50 gap-5 lg:flex-row lg:gap-12">
+    <div className="z-10 w-full flex flex-col py-6 px-12 shadow-xl bg-yellow-50 gap-5 lg:flex-row lg:gap-12 ">
       <form action="" className="flex items-center gap-2">
         <label htmlFor="search_bar">
           <input

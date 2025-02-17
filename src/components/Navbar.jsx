@@ -62,7 +62,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="h-full w-52 bg-cyan-200 fixed border-r-2 border-black flex-col gap-12 hidden lg:flex">
+      <div className="h-full w-52 bg-teal-200 fixed border-r-2 border-black flex-col gap-12 hidden lg:flex">
         <Link
           to="/"
           className="logo text-3xl mx-9 font-bold tracking-widest mt-8 cursor-pointer"

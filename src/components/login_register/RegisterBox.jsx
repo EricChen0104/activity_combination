@@ -5,7 +5,7 @@ const RegisterBox = () => {
   return (
     <form
       action=""
-      className="bg-slate-100 flex flex-col gap-4 p-5 py-12 items-center rounded-lg drop-shadow-2xl"
+      className="bg-zinc-100 flex flex-col gap-4 p-5 py-12 items-center rounded-lg drop-shadow-2xl"
     >
       <h1 className="text-2xl font-bold tracking-widest drop-shadow-xl">
         服務學習
