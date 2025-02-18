@@ -9,6 +9,8 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaRegHandPointer } from "react-icons/fa";
 import { IconContext } from "react-icons";
 
+import cardImage from "/assets/images/hamepage/card_img.jpg"; // Import the image
+
 const Card_overlay = ({ setOpenOverlay }) => {
   const [islogin, setIslogin] = useState(true);
   const [openContect, setOpenContect] = useState(false);
@@ -22,8 +24,14 @@ const Card_overlay = ({ setOpenOverlay }) => {
           <IoChevronBackOutline className="w-full h-full" />
         </div>
         {/* <h1 className="text-slate-800 text-2xl font-bold">標題</h1> */}
-        <div className="w-full flex items-center justify-center p-12 bg-white shadow-md rounded-lg text-sm text-slate-400">
-          圖片
+        <div className="w-full h-fit">
+          <div className="h-32 relative overflow-hidden rounded-lg shadow-md">
+            <img
+              src="/assets/images/hamepage/card_img.jpg" // Use the imported image
+              alt=""
+              className="object-cover" // Ensure the image fills the container
+            />
+          </div>
         </div>
         <h1 className="text-slate-800 text-2xl font-bold">標題</h1>
         <p className="text-sm">YEAR / MONTH / DAY</p>

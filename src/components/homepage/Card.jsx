@@ -5,7 +5,13 @@ import { FaRegBookmark } from "react-icons/fa";
 const Card = ({ setOpenOverlay }) => {
   return (
     <div className="bg-zinc-100 h-fit w-full p-4 flex flex-col gap-4 rounded-lg shadow-[0px_31px_13px_-15px_rgba(0,_0,_0,_0.1)]">
-      <div className="w-full h-32 bg-white rounded-lg shadow-md"></div>
+      <div className="w-full h-32 bg-white rounded-lg shadow-md relative overflow-hidden">
+        <img
+          src="/assets/images/hamepage/card_img.jpg"
+          alt=""
+          className="object-cover"
+        />
+      </div>
       <h1 className="text-2xl font-bold text-slate-800">標題</h1>
       <p className="text-sm">YEAR / MONTH / DAY</p>
       <div className="flex gap-4 items-center text-sm flex-wrap">
