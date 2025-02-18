@@ -3,7 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <div className="w-full h-full overflow-auto">
-      <div className="w-[calc(100%-2rem)] lg:w-[calc(100%-5rem)] h-fit m-auto flex flex-col gap-5 pt-12 max-w-[60rem]">
+      <div className="w-[calc(100%-2rem)] lg:w-[calc(100%-5rem)] h-fit m-auto flex flex-col gap-5 py-12 max-w-[60rem]">
         <div className="w-full h-42 md:h-[15rem] bg-white rounded-lg drop-shadow-lg relative overflow-hidden border-2 border-black">
           <img
             src="/assets/images/about/about_img.jpg"

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [islogin, setIslogin] = useState(true);
   return (
     <div className="z-10">
       <div
@@ -32,13 +33,23 @@ const Navbar = () => {
           <br />
           整合平台
         </Link>
-        <Link
-          to="/login"
-          className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
+        {islogin ? (
+          <Link
+            to="/profile"
+            className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
       hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
-        >
-          登入 / 註冊
-        </Link>
+          >
+            個人檔案
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
+      hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
+          >
+            登入 / 註冊
+          </Link>
+        )}
         <Link
           to="/"
           className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
@@ -71,13 +82,23 @@ const Navbar = () => {
           <br />
           整合平台
         </Link>
-        <Link
-          to="/login"
-          className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
+        {islogin ? (
+          <Link
+            to="/profile"
+            className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
       hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
-        >
-          登入 / 註冊
-        </Link>
+          >
+            個人檔案
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
+      hover:px-8 hover:w-[calc(100%-1rem)] hover:drop-shadow-2xl transition-all duration-300 ease-in-out cursor-pointer"
+          >
+            登入 / 註冊
+          </Link>
+        )}
         <Link
           to="/"
           className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
