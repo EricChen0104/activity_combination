@@ -7,6 +7,7 @@ import axios from "axios";
 
 const HomePage = () => {
   const [openOverlay, setOpenOverlay] = useState(false);
+  const [overlayPost, setOverlayPost] = useState([]);
   const [posts, setPosts] = useState([]); // 儲存 axios 取得的資料
   const [loading, setLoading] = useState(true); // 載入狀態（可選）
   const [error, setError] = useState(null); // 錯誤狀態（可選）
@@ -32,7 +33,12 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      {openOverlay && <Card_overlay setOpenOverlay={setOpenOverlay} />}
+      {openOverlay && (
+        <Card_overlay
+          setOpenOverlay={setOpenOverlay}
+          overlayPost={overlayPost}
+        />
+      )}
       <Search_bar />
       <div className="w-full flex-grow overflow-auto pt-5">
         <div className="max-w-6xl w-[calc(100%-5rem)] h-fill pb-10 mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -46,6 +52,7 @@ const HomePage = () => {
                 key={index} // 唯一 key（建議使用 post.id 如果有的話）
                 setOpenOverlay={setOpenOverlay}
                 post={post} // 將單一 post 資料傳給 Card
+                setOverlayPost={setOverlayPost}
               />
             ))
           )}

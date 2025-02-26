@@ -11,7 +11,7 @@ import { IconContext } from "react-icons";
 
 import cardImage from "/assets/images/hamepage/card_img.jpg"; // Import the image
 
-const Card_overlay = ({ setOpenOverlay }) => {
+const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
   const [islogin, setIslogin] = useState(true);
   const [openContect, setOpenContect] = useState(false);
   return (
@@ -25,27 +25,25 @@ const Card_overlay = ({ setOpenOverlay }) => {
         </div>
         {/* <h1 className="text-slate-800 text-2xl font-bold">標題</h1> */}
         <div className="w-full h-fit">
-          <div className="h-32 relative overflow-hidden rounded-lg shadow-md">
+          <div className="h-48 relative overflow-hidden rounded-lg shadow-md">
             <img
-              src="/assets/images/hamepage/card_img.jpg" // Use the imported image
+              src={overlayPost.image} // Use the imported image
               alt=""
-              className="object-cover" // Ensure the image fills the container
+              className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full" // Ensure the image fills the container
             />
           </div>
         </div>
-        <h1 className="text-slate-800 text-2xl font-bold">標題</h1>
-        <p className="text-sm">YEAR / MONTH / DAY</p>
+        <h1 className="text-slate-800 text-2xl font-bold">
+          {overlayPost.title}
+        </h1>
+        <p className="text-sm">{overlayPost.date}</p>
         <div className="flex gap-4 items-center text-sm flex-wrap">
           <p>關鍵字：</p>
-          <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
-            老人
-          </div>
-          <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
-            教學
-          </div>
-          <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
-            服務
-          </div>
+          {overlayPost.tags.map((t, index) => (
+            <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+              {t}
+            </div>
+          ))}
         </div>
         <div className="flex justify-between">
           <div className="flex gap-2 items-center text-xs cursor-pointer">
@@ -54,26 +52,7 @@ const Card_overlay = ({ setOpenOverlay }) => {
           </div>
           <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
         </div>
-        <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-          repudiandae ducimus alias quam possimus officia, eaque totam dolorum,
-          soluta distinctio quo sequi quae ipsum reprehenderit dicta commodi
-          quibusdam, tempore earum debitis quos accusantium saepe tenetur.
-          Eligendi facilis adipisci porro necessitatibus odit nemo, omnis soluta
-          debitis id pariatur, deleniti excepturi suscipit recusandae
-          accusantium sunt, ullam nesciunt sapiente nulla odio distinctio!
-          Voluptatibus eum accusamus impedit harum necessitatibus officiis
-          repudiandae iusto unde tenetur nam! Praesentium incidunt iusto
-          necessitatibus. Suscipit, omnis dolorum voluptatem at fugit, molestias
-          vel, id neque eligendi tempora modi sit voluptates? Expedita, dolore.
-          Aliquam beatae consequuntur explicabo quia, odit in alias.ullam
-          nesciunt sapiente nulla odio distinctio! Voluptatibus eum accusamus
-          impedit harum necessitatibus officiis repudiandae iusto unde tenetur
-          nam! Praesentium incidunt iusto necessitatibus. Suscipit, omnis
-          dolorum voluptatem at fugit, molestias vel, id neque eligendi tempora
-          modi sit voluptates? Expedita, dolore. Aliquam beatae consequuntur
-          explicabo quia, odit in alias.
-        </p>
+        <p className="text-sm">{overlayPost.detail}</p>
         <div
           className="flex gap-2 items-center cursor-pointer"
           onClick={() => setOpenContect((prev) => !prev)}
@@ -130,12 +109,19 @@ const Card_overlay = ({ setOpenOverlay }) => {
             )}
           </div>
         )}
-        <button className="flex items-center justify-center gap-2 p-3 bg-teal-700 text-white rounded-lg cursor-pointer hover:shadow-[5px_5px_rgba(0,_98,_90,_0.4),_10px_10px_rgba(0,_98,_90,_0.3),_15px_15px_rgba(0,_98,_90,_0.2),_20px_20px_rgba(0,_98,_90,_0.1),_25px_25px_rgba(0,_98,_90,_0.05)] transition-all duration-150 ease-in-out">
-          <IconContext.Provider value={{ color: "white", size: "50px" }}>
-            <FaRegHandPointer className="size-4" />
-          </IconContext.Provider>
-          點此至報名網站
-        </button>
+        {overlayPost.link && (
+          <button
+            className="flex items-center justify-center gap-2 p-3 bg-teal-700 text-white rounded-lg cursor-pointer hover:shadow-[5px_5px_rgba(0,_98,_90,_0.4),_10px_10px_rgba(0,_98,_90,_0.3),_15px_15px_rgba(0,_98,_90,_0.2),_20px_20px_rgba(0,_98,_90,_0.1),_25px_25px_rgba(0,_98,_90,_0.05)] transition-all duration-150 ease-in-out"
+            onClick={() => {
+              window.open(`${overlayPost.link}`);
+            }}
+          >
+            <IconContext.Provider value={{ color: "white", size: "50px" }}>
+              <FaRegHandPointer className="size-4" />
+            </IconContext.Provider>
+            點此至報名網站
+          </button>
+        )}
       </div>
     </div>
   );
