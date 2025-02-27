@@ -3,6 +3,7 @@ import {
   createPost,
   deletePost,
   getPost,
+  searchPost,
 } from "../controllers/post.controllers.js";
 import Post from "../models/post.model.js";
 import fs from "fs/promises";
@@ -10,6 +11,7 @@ import fs from "fs/promises";
 const router = express.Router();
 
 router.get("/", getPost);
+router.get("/search", searchPost);
 router.post("/", createPost);
 router.delete("/:id", deletePost);
 router.post("/insertFile", async () => {

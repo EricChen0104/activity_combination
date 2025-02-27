@@ -39,7 +39,7 @@ const HomePage = () => {
           overlayPost={overlayPost}
         />
       )}
-      <Search_bar />
+      <Search_bar setPosts={setPosts} posts={posts} />
       <div className="w-full flex-grow overflow-auto pt-5">
         <div className="max-w-6xl w-[calc(100%-5rem)] h-fill pb-10 mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {loading ? (
