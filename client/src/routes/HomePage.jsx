@@ -9,6 +9,7 @@ const HomePage = () => {
   const [openOverlay, setOpenOverlay] = useState(false);
   const [overlayPost, setOverlayPost] = useState([]);
   const [posts, setPosts] = useState([]); // 儲存 axios 取得的資料
+  const [prevSearchTerm, setprevSearchTerm] = useState([]);
   const [loading, setLoading] = useState(true); // 載入狀態（可選）
   const [error, setError] = useState(null); // 錯誤狀態（可選）
 
@@ -19,6 +20,7 @@ const HomePage = () => {
         `${import.meta.env.VITE_SERVER_DOMAIN}/posts`
       );
       setPosts(response.data); // 將資料存入 state
+      setprevSearchTerm(response.data);
       setLoading(false); // 載入完成
     } catch (err) {
       setError(err.response?.data?.error || "無法獲取資料"); // 儲存錯誤訊息
@@ -39,13 +41,19 @@ const HomePage = () => {
           overlayPost={overlayPost}
         />
       )}
-      <Search_bar setPosts={setPosts} posts={posts} />
+      <Search_bar
+        setPosts={setPosts}
+        prevSearchTerm={prevSearchTerm}
+        setprevSearchTerm={setprevSearchTerm}
+      />
       <div className="w-full flex-grow overflow-auto pt-5">
         <div className="max-w-6xl w-[calc(100%-5rem)] h-fill pb-10 mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {loading ? (
             <p>載入中...</p> // 載入狀態顯示
           ) : error ? (
             <p className="text-red-500">{error}</p> // 錯誤訊息顯示
+          ) : posts.length === 0 ? (
+            <p>無相關活動</p> // 當 posts 陣列是空的時候顯示
           ) : (
             posts.map((post, index) => (
               <Card

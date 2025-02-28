@@ -16,7 +16,7 @@ const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
   const [openContect, setOpenContect] = useState(false);
   return (
     <div className="w-full lg:w-[calc(100%-13rem)] fixed z-20 h-full flex items-center justify-center bg-slate-800/20 backdrop-blur-sm">
-      <div className="w-[calc(100%-2rem)] max-w-[50rem] h-[calc(100%-6rem)] lg:h-fit lg:max-h-[50rem] lg:w-[calc(100%-2rem)] bg-zinc-100 rounded-lg shadow-2xl flex flex-col gap-5 p-4 pb-8 overflow-auto lg:px-8 ">
+      <div className="w-[calc(100%-2rem)] max-w-[50rem] h-[calc(100%-6rem)] lg:h-fit lg:max-h-[45rem] lg:w-[calc(100%-2rem)] bg-zinc-100 rounded-lg shadow-2xl flex flex-col gap-5 p-4 pb-8 overflow-auto lg:px-8 ">
         <div
           className="size-6 cursor-pointer transition-all duration-300 ease-in-out"
           onClick={() => setOpenOverlay(false)}
@@ -36,22 +36,26 @@ const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
         <h1 className="text-slate-800 text-2xl font-bold">
           {overlayPost.title}
         </h1>
+        <h2 className="text-md flex items-end">
+          <p className="text-sm">地區：</p>
+          <p className="font-bold">{overlayPost.region_tag}</p>
+        </h2>
         <p className="text-sm">{overlayPost.date}</p>
-        <div className="flex gap-4 items-center text-sm flex-wrap">
-          <p>關鍵字：</p>
-          {overlayPost.tags.map((t, index) => (
-            <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
-              {t}
-            </div>
-          ))}
-        </div>
         <div className="flex justify-between">
-          <div className="flex gap-2 items-center text-xs cursor-pointer">
-            <FaRegHeart className="w-5 h-5 hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
-            <p>00</p>
+          <div className="flex gap-4 items-center text-sm flex-wrap">
+            <p>關鍵字：</p>
+            {overlayPost.tags.map((t, index) => (
+              <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+                {t}
+              </div>
+            ))}
           </div>
-          <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
+          <div className="flex items-center gap-2">
+            <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
+            <p className="text-sm text-slate-700">00</p>
+          </div>
         </div>
+
         <p className="text-sm">{overlayPost.detail}</p>
         <div
           className="flex gap-2 items-center cursor-pointer"

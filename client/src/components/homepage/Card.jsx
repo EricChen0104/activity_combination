@@ -13,31 +13,41 @@ const Card = ({ setOpenOverlay, post, setOverlayPost }) => {
         />
       </div>
       <h1 className="text-xl font-bold text-slate-800">{post.title}</h1>
-      <p className="text-sm">{post.date}</p>
-      <div className="flex gap-4 items-center text-sm flex-wrap">
-        <p>關鍵字：</p>
-        {post.tags.map((t, index) => (
-          <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
-            {t}
-          </div>
-        ))}
+      <h2 className="text-md flex items-center">
+        <p className="text-xs text-slate-700">地區：</p>
+        <p className="font-bold">{post.region_tag}</p>
+      </h2>
+      <div className="flex flex-col gap-1">
+        <p className="text-xs text-slate-700">招募期限：</p>
+        <p className="text-sm">{post.date}</p>
+      </div>
 
-        {/* <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2">
+          <p className="text-xs text-slate-500">關鍵字：</p>
+          <div className="flex gap-4 items-center text-sm flex-wrap">
+            {post.tags.map((t, index) => (
+              <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+                {t}
+              </div>
+            ))}
+
+            {/* <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
           教學
         </div>
         <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
           服務
         </div> */}
-      </div>
-      <div className="flex justify-between">
-        <div className="flex gap-2 items-center text-xs cursor-pointer">
-          <FaRegHeart className="w-5 h-5 hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
-          <p>00</p>
+          </div>
         </div>
-        <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
+        <div className="flex items-center gap-2 ml-5">
+          <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
+          <p className="text-sm text-slate-700">00</p>
+        </div>
       </div>
+
       <button
-        className="border-2 border-black py-1 rounded-lg bg-teal-700 text-white hover:text-teal-700 hover:bg-transparent transition-all duration-300 ease-in-out"
+        className="mt-5 border-2 border-black py-1 rounded-lg bg-teal-700 text-white hover:text-teal-700 hover:bg-transparent transition-all duration-300 ease-in-out"
         onClick={() => {
           setOverlayPost(post);
           setOpenOverlay(true);
