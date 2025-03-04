@@ -12,9 +12,9 @@ const Profile = () => {
           <div className="h-fit w-full py-4 px-5 md:px-0 flex flex-col gap-5 bg-lime-50">
             <h2 className="font-bold text-lg px-[1rem]">您收藏的活動</h2>
             <div className="flex flex-col gap-5 h-fit w-full md:w-[calc(100%-2rem)] m-auto max-w-[30rem]">
+              {/* <Card />
               <Card />
-              <Card />
-              <Card />
+              <Card /> */}
             </div>
           </div>
         </div>

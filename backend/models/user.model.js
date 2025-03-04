@@ -13,11 +13,15 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     img: {
       type: String,
     },
     savedPosts: {
-      type: [String],
+      type: [{ type: Schema.Types.ObjectId, ref: "Post" }], // Array of Post IDs
       default: [],
     },
   },

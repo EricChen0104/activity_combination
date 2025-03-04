@@ -3,10 +3,26 @@ import { RxCross2 } from "react-icons/rx";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../main";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [islogin, setIslogin] = useState(false);
+
+  const {
+    userAuth,
+    userAuth: { token },
+  } = useContext(UserContext);
+
+  // useEffect(() => {
+  //   if (token) setIslogin(true);
+  //   else setIslogin(false);
+  //   console.log(token);
+  // }, [token]);
+  console.log(token);
+
   return (
     <div className="z-10">
       <div
@@ -33,7 +49,7 @@ const Navbar = () => {
           <br />
           整合平台
         </Link>
-        {islogin ? (
+        {token ? (
           <Link
             to="/profile"
             className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
@@ -82,7 +98,7 @@ const Navbar = () => {
           <br />
           整合平台
         </Link>
-        {islogin ? (
+        {token ? (
           <Link
             to="/profile"
             className="bg-teal-700 w-[calc(100%-2.5rem)] py-1.5 px-4 text-white rounded-r-md text-md drop-shadow-lg 
