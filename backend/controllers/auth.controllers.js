@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt"; // Import bcrypt for password hashing
 import validator from "validator"; // Import validator for email validation
-import User from "../models/user.model.js"; // Import your User model
+import User from "../models/user.model.js"; // Import your User mode
+import Post from "../models/post.model.js";
 import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
@@ -113,5 +114,22 @@ export const loginUser = async (req, res) => {
   } catch (err) {
     console.error(err); // Log the error for debugging
     res.status(500).json({ message: "登入失敗", error: err.message }); // Detailed error message
+  }
+};
+
+export const savedPost = async (req, res) => {
+  const { userId } = req.query;
+
+  try {
+    const posts = await Post.find({ savedBy: userId });
+
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ message: "沒有儲存的貼文" });
+    }
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching saved posts:", error);
+    res.status(500).json({ message: "無法取得儲存的貼文" });
   }
 };
