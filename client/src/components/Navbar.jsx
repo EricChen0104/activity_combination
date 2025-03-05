@@ -7,6 +7,8 @@ import { useContext } from "react";
 import { UserContext } from "../main";
 import { useEffect } from "react";
 
+import { IconContext } from "react-icons";
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [islogin, setIslogin] = useState(false);
@@ -30,20 +32,22 @@ const Navbar = () => {
         className="w-5 h-5 lg:hidden fixed z-10 mx-4 mt-4 cursor-pointer"
       >
         {open ? (
-          <RxCross2 className="w-full h-full" />
+          <IconContext.Provider value={{ color: "white", size: "50px" }}>
+            <RxCross2 className="size-5" />
+          </IconContext.Provider>
         ) : (
           <BiMenu className="w-full h-full" />
         )}
       </div>
 
       <div
-        className={`h-full w-52 bg-cyan-200 fixed border-r-2 border-black flex-col gap-12 flex ${
+        className={`h-full w-52 bg-teal-800 fixed border-r-2 border-black flex-col gap-12 flex ${
           open ? "-left-0" : "-left-[100%]"
         } transition-all duration-500 ease-in-out`}
       >
         <Link
           to="/"
-          className="logo text-3xl mx-9 font-bold tracking-widest mt-8 cursor-pointer"
+          className="logo text-3xl mx-9 font-bold tracking-widest mt-8 cursor-pointer text-white"
         >
           服務學習
           <br />
@@ -89,10 +93,10 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="h-full w-52 bg-teal-200 fixed border-r-2 border-black flex-col gap-12 hidden lg:flex">
+      <div className="h-full w-52 bg-teal-800 fixed border-r-2 border-black flex-col gap-12 hidden lg:flex">
         <Link
           to="/"
-          className="logo text-3xl mx-9 font-bold tracking-widest mt-8 cursor-pointer"
+          className="logo text-3xl mx-9 font-bold tracking-widest mt-8 cursor-pointer text-white"
         >
           服務學習
           <br />

@@ -124,7 +124,7 @@ const Card_overlay = ({
               className="flex items-center gap-2 ml-5 cursor-pointer"
               onClick={savePost}
             >
-              <IconContext.Provider value={{ color: "#00FF00", size: "50px" }}>
+              <IconContext.Provider value={{ color: "#6dbf69", size: "50px" }}>
                 <GoBookmarkSlashFill className="size-6" />
               </IconContext.Provider>
               <p className="text-sm text-slate-700">{savedByLength}</p>
@@ -192,7 +192,7 @@ const Card_overlay = ({
             ) : (
               <Link
                 to="/login"
-                className="text-sm text-slate-600 underline cursor-pointer w-fit"
+                className="text-sm text-blue-500 underline cursor-pointer w-fit"
               >
                 登入後才能使用此功能
               </Link>
