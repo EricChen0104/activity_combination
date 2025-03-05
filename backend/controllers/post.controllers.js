@@ -1,4 +1,7 @@
 import Post from "../models/post.model.js";
+import User from "../models/user.model.js";
+
+import mongoose from "mongoose";
 
 export const getPost = async (req, res) => {
   const posts = await Post.find();
@@ -35,4 +38,59 @@ export const createPost = async (req, res) => {
 export const deletePost = async (req, res) => {
   const post = await Post.findByIdAndDelete(req.params.id);
   res.status(200).json("Post has been deleted!");
+};
+
+export const savePost = async (req, res) => {
+  try {
+    const { postId, userId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(400).json({ message: "Invalid postId" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if the post is already saved
+    const isSaved = user.savedPosts.includes(postId);
+
+    if (isSaved) {
+      // If so, remove it
+      user.savedPosts = user.savedPosts.filter(
+        (savedPostId) => savedPostId.toString() !== postId
+      );
+      post.savedBy = post.savedBy.filter(
+        (savedPostId) => savedPostId.toString() !== userId
+      );
+    } else {
+      // If not, add it
+      user.savedPosts.push(postId);
+      if (!post.savedBy) {
+        post.savedBy = [];
+      }
+      post.savedBy.push(userId);
+    }
+
+    await user.save();
+    await post.save();
+
+    res
+      .status(200)
+      .json({
+        message: `Post ${isSaved ? "unsaved" : "saved"} successfully`,
+        post,
+      });
+  } catch (error) {
+    console.error("Error saving/unsaving post:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to save/unsave post", error: error.message });
+  }
 };

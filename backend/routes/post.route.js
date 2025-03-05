@@ -3,6 +3,7 @@ import {
   createPost,
   deletePost,
   getPost,
+  savePost,
   searchPost,
 } from "../controllers/post.controllers.js";
 import Post from "../models/post.model.js";
@@ -14,6 +15,7 @@ router.get("/", getPost);
 router.get("/search", searchPost);
 router.post("/", createPost);
 router.delete("/:id", deletePost);
+router.post("/save/post", savePost);
 router.post("/insertFile", async () => {
   const filePath =
     "/Users/ericchen980104/Desktop/專案們/服務學習資源整合平台/web/full-stack-blog/backend/tagged_data.json";

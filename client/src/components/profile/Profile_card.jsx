@@ -14,7 +14,7 @@ const Profile_card = () => {
 
   const navigate = useNavigate(); // Hook for navigation
 
-  const signOut = () => {
+  const signOut = async () => {
     toast.success("成功登出");
     setTimeout(() => {
       removeFromSession("User");
@@ -39,7 +39,7 @@ const Profile_card = () => {
       <h2 className="text-xl font-bold">{userAuth.user.username}</h2>
       <div className="flex flex-col">
         <p className="text-sm text-slate-500">帳號：</p>
-        <p className="text-md text-slate-800">{userAuth.user.email}</p>
+        <p className="text-md text-slate-800 italic">{userAuth.user.email}</p>
       </div>
       <button className="border-2 border-black py-1 px-8 rounded-lg bg-teal-700 text-white text-xs hover:text-teal-700 hover:bg-transparent transition-all duration-300 ease-in-out">
         編輯個人檔案

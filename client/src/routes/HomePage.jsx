@@ -5,6 +5,8 @@ import Card_overlay from "../components/homepage/Card_overlay";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { Toaster } from "react-hot-toast";
+
 const HomePage = () => {
   const [openOverlay, setOpenOverlay] = useState(false);
   const [overlayPost, setOverlayPost] = useState([]);
@@ -33,12 +35,26 @@ const HomePage = () => {
     getPosts();
   }, []); // 空陣列表示僅在初次渲染時執行
 
+  const handleSaveToggle = (updatedPost, isSaved) => {
+    const updatedPosts = posts.map((post) =>
+      post._id === updatedPost._id ? updatedPost : post
+    );
+    setPosts(updatedPosts);
+
+    if (openOverlay && overlayPost._id === updatedPost._id) {
+      setOverlayPost(updatedPost);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
+      <Toaster />
       {openOverlay && (
         <Card_overlay
           setOpenOverlay={setOpenOverlay}
           overlayPost={overlayPost}
+          openOverlay={openOverlay}
+          onSaveToggle={handleSaveToggle}
         />
       )}
       <Search_bar
@@ -61,6 +77,8 @@ const HomePage = () => {
                 setOpenOverlay={setOpenOverlay}
                 post={post} // 將單一 post 資料傳給 Card
                 setOverlayPost={setOverlayPost}
+                openOverlay={openOverlay}
+                onSaveToggle={handleSaveToggle}
               />
             ))
           )}

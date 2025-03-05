@@ -115,6 +115,7 @@ const SearchBar = ({ setPosts, prevSearchTerm, setprevSearchTerm }) => {
     "花蓮",
     "宜蘭",
     "南投",
+    "線上",
   ];
 
   const renderDropdownOptions = () => {

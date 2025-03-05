@@ -1,19 +1,88 @@
 import React from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
-import { useState } from "react";
+import { FaRegBookmark } from "react-icons/fa6";
+import { GoBookmarkSlashFill } from "react-icons/go";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";
 import { FaRegHandPointer } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { Toaster, toast } from "react-hot-toast";
 
-import cardImage from "/assets/images/hamepage/card_img.jpg"; // Import the image
+import { useContext } from "react";
+import { UserContext } from "../../main";
 
-const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
-  const [islogin, setIslogin] = useState(true);
+import axios from "axios";
+
+const Card_overlay = ({
+  setOpenOverlay,
+  overlayPost,
+  openOverlay,
+  onSaveToggle,
+}) => {
   const [openContect, setOpenContect] = useState(false);
+
+  let {
+    userAuth,
+    userAuth: { token },
+  } = useContext(UserContext);
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in AND the post has been loaded
+    if (userAuth && userAuth.user && overlayPost && overlayPost.savedBy) {
+      // Convert user._id to string for comparison. _id are Mongoose ObjectIds.
+      const userIdString = userAuth.user._id.toString();
+
+      // Check if post.savedBy includes userIdString.
+      const isPostSavedByUser = overlayPost.savedBy.some(
+        (savedUserId) => savedUserId.toString() === userIdString
+      );
+      console.log(isPostSavedByUser);
+      setIsBookmarked(isPostSavedByUser);
+    } else {
+      console.log("fuck you");
+      setIsBookmarked(false); // Ensure isBookmarked is false if user is not logged in or data is missing
+    }
+  }, [userAuth, overlayPost, openOverlay]); // Dependencies: userAuth, post (re-run effect when these change)
+
+  const [savedByLength, setSavedByLength] = useState(
+    overlayPost.savedBy ? overlayPost.savedBy.length : 0
+  );
+
+  const savePost = async () => {
+    if (!token) {
+      return toast.error("請先登入以使用此功能");
+    }
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_DOMAIN}/posts/save/post`,
+      {
+        userId: userAuth.user._id,
+        postId: overlayPost._id,
+      }
+    );
+
+    if (response.status == 200) {
+      console.log(response);
+      const updatedPost = response.data.post;
+      setSavedByLength(response.data.post.savedBy.length);
+      if (response.data.message == "Post saved successfully") {
+        setIsBookmarked(true);
+        // Pass updated post data back to parent
+        onSaveToggle(updatedPost, true);
+        return toast.success("成功收藏");
+      } else {
+        setIsBookmarked(false);
+        // Pass updated post data back to parent
+        onSaveToggle(updatedPost, false);
+        return toast.success("成功取消收藏");
+      }
+    } else {
+      toast.error(response.data.message || "收藏失敗"); // Display backend error
+    }
+  };
   return (
     <div className="w-full lg:w-[calc(100%-13rem)] fixed z-20 h-full flex items-center justify-center bg-slate-800/20 backdrop-blur-sm">
       <div className="w-[calc(100%-2rem)] max-w-[50rem] h-[calc(100%-6rem)] lg:h-fit lg:max-h-[45rem] lg:w-[calc(100%-2rem)] bg-zinc-100 rounded-lg shadow-2xl flex flex-col gap-5 p-4 pb-8 overflow-auto lg:px-8 ">
@@ -50,10 +119,27 @@ const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-2">
-            <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
-            <p className="text-sm text-slate-700">00</p>
-          </div>
+          {isBookmarked ? (
+            <div
+              className="flex items-center gap-2 ml-5 cursor-pointer"
+              onClick={savePost}
+            >
+              <IconContext.Provider value={{ color: "#00FF00", size: "50px" }}>
+                <GoBookmarkSlashFill className="size-6" />
+              </IconContext.Provider>
+              <p className="text-sm text-slate-700">{savedByLength}</p>
+            </div>
+          ) : (
+            <div
+              className="flex items-center gap-2 ml-5 cursor-pointer"
+              onClick={savePost}
+            >
+              <IconContext.Provider value={{ color: "black", size: "50px" }}>
+                <FaRegBookmark className="size-5" />
+              </IconContext.Provider>
+              <p className="text-sm text-slate-700">{savedByLength}</p>
+            </div>
+          )}
         </div>
 
         <p className="text-sm">{overlayPost.detail}</p>
@@ -74,7 +160,7 @@ const Card_overlay = ({ setOpenOverlay, overlayPost }) => {
         </div>
         {openContect && (
           <div>
-            {islogin ? (
+            {token ? (
               <form action="" className="flex flex-col gap-4">
                 <label
                   htmlFor=""

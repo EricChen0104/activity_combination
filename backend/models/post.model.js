@@ -27,6 +27,10 @@ const postSchema = new Schema({
     default: [],
     required: true,
   },
+  savedBy: {
+    type: [{ type: Schema.Types.ObjectId, ref: "User" }], // Array of User IDs who saved the post
+    default: [], // VERY IMPORTANT: Initialize to an empty array
+  },
 });
 
 export default mongoose.model("Post", postSchema);

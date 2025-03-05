@@ -1,8 +1,78 @@
+import axios from "axios";
 import React from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useContext } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import { FaRegBookmark } from "react-icons/fa6";
+import { GoBookmarkSlashFill } from "react-icons/go";
 
-const Card = ({ setOpenOverlay, post, setOverlayPost }) => {
+import { UserContext } from "../../main";
+import { IconContext } from "react-icons";
+
+const Card = ({ setOpenOverlay, post, setOverlayPost, onSaveToggle }) => {
+  let {
+    userAuth,
+    userAuth: { token },
+  } = useContext(UserContext);
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const [savedByLength, setSavedByLength] = useState(
+    post.savedBy ? post.savedBy.length : 0
+  );
+
+  useEffect(() => {
+    // Check if the user is logged in AND the post has been loaded
+    if (userAuth && userAuth.user && post && post.savedBy) {
+      // Convert user._id to string for comparison. _id are Mongoose ObjectIds.
+      const userIdString = userAuth.user._id.toString();
+
+      // Check if post.savedBy includes userIdString.
+      const isPostSavedByUser = post.savedBy.some(
+        (savedUserId) => savedUserId.toString() === userIdString
+      );
+
+      setSavedByLength(post.savedBy ? post.savedBy.length : 0);
+      setIsBookmarked(isPostSavedByUser);
+    } else {
+      setIsBookmarked(false); // Ensure isBookmarked is false if user is not logged in or data is missing
+    }
+  }, [userAuth, post]); // Dependencies: userAuth, post (re-run effect when these change)
+
+  const savePost = async () => {
+    if (!token) {
+      return toast.error("請先登入以使用此功能");
+    }
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_DOMAIN}/posts/save/post`,
+      {
+        userId: userAuth.user._id,
+        postId: post._id,
+      }
+    );
+
+    if (response.status == 200) {
+      const updatedPost = response.data.post;
+      console.log(updatedPost);
+      setSavedByLength(updatedPost.savedBy.length);
+
+      if (response.data.message == "Post saved successfully") {
+        setIsBookmarked(true);
+        // Pass updated post data back to parent
+        onSaveToggle(updatedPost, true);
+        return toast.success("成功收藏");
+      } else {
+        setIsBookmarked(false);
+        // Pass updated post data back to parent
+        onSaveToggle(updatedPost, false);
+        return toast.success("成功取消收藏");
+      }
+    } else {
+      toast.error(response.data.message || "收藏失敗"); // Display backend error
+    }
+  };
+
   return (
     <div className="bg-zinc-100 h-fit w-full p-4 flex flex-col gap-4 rounded-lg shadow-[0px_31px_13px_-15px_rgba(0,_0,_0,_0.1)]">
       <div className="w-full h-32 bg-white rounded-lg shadow-md relative overflow-hidden">
@@ -40,10 +110,27 @@ const Card = ({ setOpenOverlay, post, setOverlayPost }) => {
         </div> */}
           </div>
         </div>
-        <div className="flex items-center gap-2 ml-5">
-          <FaRegBookmark className="w-5 h-5 cursor-pointer hover:drop-shadow-xl transition-all duration-300 ease-in-out" />
-          <p className="text-sm text-slate-700">00</p>
-        </div>
+        {isBookmarked ? (
+          <div
+            className="flex items-center gap-2 ml-5 cursor-pointer"
+            onClick={savePost}
+          >
+            <IconContext.Provider value={{ color: "#00FF00", size: "50px" }}>
+              <GoBookmarkSlashFill className="size-6" />
+            </IconContext.Provider>
+            <p className="text-sm text-slate-700">{savedByLength}</p>
+          </div>
+        ) : (
+          <div
+            className="flex items-center gap-2 ml-5 cursor-pointer"
+            onClick={savePost}
+          >
+            <IconContext.Provider value={{ color: "black", size: "50px" }}>
+              <FaRegBookmark className="size-5" />
+            </IconContext.Provider>
+            <p className="text-sm text-slate-700">{savedByLength}</p>
+          </div>
+        )}
       </div>
 
       <button
