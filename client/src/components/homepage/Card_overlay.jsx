@@ -9,6 +9,9 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaRegHandPointer } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Toaster, toast } from "react-hot-toast";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaTags } from "react-icons/fa6";
+import { FaCalendarAlt } from "react-icons/fa";
 
 import { useContext } from "react";
 import { UserContext } from "../../main";
@@ -105,14 +108,17 @@ const Card_overlay = ({
         <h1 className="text-slate-800 text-2xl font-bold">
           {overlayPost.title}
         </h1>
-        <h2 className="text-md flex items-end">
-          <p className="text-sm">地區：</p>
+        <h2 className="text-md flex items-center gap-2">
+          <FaLocationDot className="size-4" />
           <p className="font-bold">{overlayPost.region_tag}</p>
         </h2>
-        <p className="text-sm">{overlayPost.date}</p>
+        <h2 className="text-md flex items-center gap-2">
+          <FaCalendarAlt className="size-4" />
+          <p className="text-sm">{overlayPost.date}</p>
+        </h2>
         <div className="flex justify-between">
           <div className="flex gap-4 items-center text-sm flex-wrap">
-            <p>關鍵字：</p>
+            <FaTags className="size-4" />
             {overlayPost.tags.map((t, index) => (
               <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
                 {t}

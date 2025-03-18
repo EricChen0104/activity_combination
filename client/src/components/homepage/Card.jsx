@@ -6,6 +6,9 @@ import { useContext } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { FaRegBookmark } from "react-icons/fa6";
 import { GoBookmarkSlashFill } from "react-icons/go";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaTags } from "react-icons/fa6";
+import { FaCalendarAlt } from "react-icons/fa";
 
 import { UserContext } from "../../main";
 import { IconContext } from "react-icons";
@@ -83,18 +86,18 @@ const Card = ({ setOpenOverlay, post, setOverlayPost, onSaveToggle }) => {
         />
       </div>
       <h1 className="text-xl font-bold text-slate-800">{post.title}</h1>
-      <h2 className="text-md flex items-center">
-        <p className="text-xs text-slate-700">地區：</p>
+      <h2 className="text-md flex items-center gap-2">
+        <FaLocationDot className="size-4" />
         <p className="font-bold">{post.region_tag}</p>
       </h2>
-      <div className="flex flex-col gap-1">
-        <p className="text-xs text-slate-700">招募期限：</p>
+      <div className="flex items-center gap-2">
+        <FaCalendarAlt className="size-4" />
         <p className="text-sm">{post.date}</p>
       </div>
 
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-2">
-          <p className="text-xs text-slate-500">關鍵字：</p>
+          <FaTags className="size-4" />
           <div className="flex gap-4 items-center text-sm flex-wrap">
             {post.tags.map((t, index) => (
               <div className="px-3 py-1 rounded-2xl bg-teal-700 text-white text-xs cursor-pointer hover:drop-shadow-lg transition-all duration-300 ease-in-out">
