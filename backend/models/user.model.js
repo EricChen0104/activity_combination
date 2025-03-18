@@ -24,6 +24,14 @@ const userSchema = new Schema(
       type: [{ type: Schema.Types.ObjectId, ref: "Post" }], // Array of Post IDs
       default: [],
     },
+    otp: {
+      type: String,
+      default: null,
+    }, // 儲存 OTP
+    otpExpiry: {
+      type: Date,
+      default: null,
+    }, // OTP 到期時間
   },
   { timestamps: true }
 );

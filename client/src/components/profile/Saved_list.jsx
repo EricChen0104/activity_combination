@@ -51,7 +51,7 @@ const Saved_list = ({
       <h2 className="font-bold text-lg px-[1rem]">您收藏的活動</h2>
       <div className="flex flex-col gap-5 h-fit w-full md:w-[calc(100%-2rem)] m-auto max-w-[30rem]">
         {posts.length == 0 ? (
-          <div>尚無收藏活動</div>
+          <div className="">尚無收藏活動</div>
         ) : (
           posts.map((post, index) => (
             <Card

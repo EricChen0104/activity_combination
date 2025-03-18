@@ -3,6 +3,7 @@ import validator from "validator"; // Import validator for email validation
 import User from "../models/user.model.js"; // Import your User mode
 import Post from "../models/post.model.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 export const registerUser = async (req, res) => {
   const { username, email, password, confirm_password } = req.body;
@@ -131,5 +132,161 @@ export const savedPost = async (req, res) => {
   } catch (error) {
     console.error("Error fetching saved posts:", error);
     res.status(500).json({ message: "無法取得儲存的貼文" });
+  }
+};
+
+// OTP 傳送功能
+export const sendOTP = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // --- 基本驗證 ---
+    if (!email) {
+      return res.status(400).json({ message: "請提供 Email" });
+    }
+
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ message: "無效的 Email 格式" });
+    }
+
+    // --- 檢查用戶是否存在 ---
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "使用者不存在" });
+    }
+
+    // --- 生成 6 位數 OTP ---
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = Date.now() + 10 * 60 * 1000; // OTP 10 分鐘後過期
+
+    // --- 更新用戶資料中的 OTP 和到期時間 ---
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+
+    // --- 設定郵件傳送器 (使用 nodemailer) ---
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // 可換成其他服務如 Outlook, SendGrid 等
+      auth: {
+        user: process.env.EMAIL_USER, // 你的 email，從環境變數中獲取
+        pass: process.env.EMAIL_PASS, // 你的 email 密碼或應用程式專用密碼
+      },
+    });
+
+    // --- 設定郵件內容 ---
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "您的 OTP 驗證碼",
+      text: `您的 OTP 驗證碼是：${otp}\n此驗證碼將在 10 分鐘後過期。`,
+      html: `
+        <h2>OTP 驗證碼</h2>
+        <p>您的 OTP 驗證碼是：<strong>${otp}</strong></p>
+        <p>此驗證碼將在 10 分鐘後過期，請盡快使用。</p>
+      `,
+    };
+
+    // --- 發送郵件 ---
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({
+      message: "OTP 已成功發送到您的 Email",
+      expiresAt: otpExpiry,
+    });
+  } catch (err) {
+    console.error("OTP 發送錯誤:", err);
+    res.status(500).json({
+      message: "OTP 發送失敗",
+      error: err.message,
+    });
+  }
+};
+
+// --- 可選：驗證 OTP 的功能 ---
+export const verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    // --- 基本驗證 ---
+    if (!email || !otp) {
+      return res.status(400).json({ message: "請提供 Email 和 OTP" });
+    }
+
+    // --- 查找用戶 ---
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "使用者不存在" });
+    }
+
+    // --- 檢查 OTP 是否有效 ---
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: "無效的 OTP" });
+    }
+
+    if (Date.now() > user.otpExpiry) {
+      return res.status(400).json({ message: "OTP 已過期" });
+    }
+
+    // --- OTP 驗證成功，清除 OTP 資料 ---
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+
+    // --- 生成並返回 JWT token (可選) ---
+    const token = generateToken(user);
+
+    res.status(200).json({
+      message: "OTP 驗證成功",
+      token: token,
+    });
+  } catch (err) {
+    console.error("OTP 驗證錯誤:", err);
+    res.status(500).json({
+      message: "OTP 驗證失敗",
+      error: err.message,
+    });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const { confirm_password, password, email } = req.body;
+
+  try {
+    if (!password) {
+      return res.status(400).json({ message: "密碼尚未填寫" });
+    }
+    if (!confirm_password) {
+      return res.status(400).json({ message: "確認密碼尚未填寫" });
+    }
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message: "新密碼至少 8 個字元，且必須包含至少一個字母和一個數字",
+      });
+    }
+    if (confirm_password !== password) {
+      return res.status(400).json({ message: "密碼與確認密碼不同" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "使用者不存在" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(password, salt);
+    user.password = hashedNewPassword;
+
+    // --- 保存更新 ---
+    await user.save();
+
+    res.status(200).json({ message: "密碼變更成功" });
+  } catch (err) {
+    console.error("密碼變更錯誤:", err);
+    res.status(500).json({
+      message: "密碼變更失敗",
+      error: err.message,
+    });
   }
 };

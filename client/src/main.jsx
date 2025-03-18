@@ -9,11 +9,13 @@ import AboutAuthor from "./routes/AboutAuthor";
 import MainLayout from "./layouts/MainLayout";
 import Register from "./routes/Register";
 import Profile from "./routes/Profile";
+import Verify from "./routes/Verify";
 
 import { createContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { lookInSession } from "./common/session";
+import ResetPassword from "./routes/ResetPassword";
 
 export const UserContext = createContext({});
 
@@ -61,6 +63,14 @@ const App = () => {
         {
           path: "/register",
           element: <Register />,
+        },
+        {
+          path: "/verify",
+          element: <Verify />,
+        },
+        {
+          path: "/reset",
+          element: <ResetPassword />,
         },
         {
           path: "/profile",

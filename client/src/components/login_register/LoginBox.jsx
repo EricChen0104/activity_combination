@@ -51,6 +51,32 @@ const LoginBox = () => {
       console.error("登入時發生錯誤:", err);
     }
   };
+
+  const navToVerify = async () => {
+    if (!email) {
+      return toast.error("至少輸入電子信箱");
+    }
+    storeInSession("email", email);
+    // setUserAuth({ token: null });
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_DOMAIN}/users/reset/sendotp`,
+        {
+          email,
+        }
+      );
+      if (response.status == 200) {
+        console.log("成功傳送驗證碼");
+      } else {
+        console.log("傳送驗證碼失敗");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "傳送驗證碼時發生錯誤"); // Handle network errors
+      console.error("傳送驗證碼時發生錯誤:", err);
+    }
+    navigate("/verify");
+  };
+
   return (
     <div className="">
       <Toaster position="top-center" />
@@ -84,7 +110,9 @@ const LoginBox = () => {
           />
           <p className="text-xs text-slate-500 flex gap-2">
             忘記密碼了嗎？
-            <p className="text-blue-800 cursor-pointer">忘記密碼</p>
+            <p className="text-blue-800 cursor-pointer" onClick={navToVerify}>
+              忘記密碼
+            </p>
           </p>
         </label>
         <button
