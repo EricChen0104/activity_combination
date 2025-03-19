@@ -4,6 +4,7 @@ import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
 export const getPost = async (req, res) => {
+  console.log("getting post");
   const posts = await Post.find();
   res.status(200).json(posts);
 };
@@ -81,12 +82,10 @@ export const savePost = async (req, res) => {
     await user.save();
     await post.save();
 
-    res
-      .status(200)
-      .json({
-        message: `Post ${isSaved ? "unsaved" : "saved"} successfully`,
-        post,
-      });
+    res.status(200).json({
+      message: `Post ${isSaved ? "unsaved" : "saved"} successfully`,
+      post,
+    });
   } catch (error) {
     console.error("Error saving/unsaving post:", error);
     res
