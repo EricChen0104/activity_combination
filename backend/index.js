@@ -22,7 +22,9 @@ app.use(
 // app.get("/test", (req, res) => {
 //   res.status(200).send("it works!");
 // });
-
+app.get("/", (req, res) => {
+  res.status(200).send("API is running");
+});
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 
@@ -41,3 +43,5 @@ app.listen(port, () => {
   connectDB();
   console.log("Server is running");
 });
+
+export default app;
