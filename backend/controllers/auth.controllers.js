@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"; // Import bcrypt for password hashing
+import bcrypt from "bcryptjs"; // Import bcrypt for password hashing
 import validator from "validator"; // Import validator for email validation
 import User from "../models/user.model.js"; // Import your User mode
 import Post from "../models/post.model.js";
