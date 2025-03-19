@@ -4,18 +4,18 @@ import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
 export const getPost = async (req, res) => {
-  // console.log("getting post");
-  // try {
-  //   const posts = await Post.find().lean(); // Use .lean() for faster queries
-  //   res.status(200).json(posts);
-  // } catch (error) {
-  //   console.error("Error getting posts:", error);
-  //   res
-  //     .status(500)
-  //     .json({ message: "Failed to get posts", error: error.message });
-  // }
-  console.log("GET /posts - Simplified route");
-  res.status(200).send("Hello from /posts (simplified)!");
+  console.log("getting post");
+  try {
+    const posts = await Post.find().lean(); // Use .lean() for faster queries
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to get posts", error: error.message });
+  }
+  // console.log("GET /posts - Simplified route");
+  // res.status(200).send("Hello from /posts (simplified)!");
 };
 
 export const searchPost = async (req, res) => {
