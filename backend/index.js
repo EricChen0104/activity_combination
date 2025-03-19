@@ -7,6 +7,17 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173"; // Use environment variable, default to localhost
+
+// Production CORS configuration (recommended)
+app.use(
+  cors({
+    origin: frontendURL, //  Allow requests from this origin only
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers (important if you're using Authorization headers)
+  })
+);
 // app.get("/test", (req, res) => {
 //   res.status(200).send("it works!");
 // });
@@ -23,7 +34,9 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000; // Use environment variable for port
+
+app.listen(port, () => {
   connectDB();
   console.log("Server is running");
 });
