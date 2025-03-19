@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "npm install --force && npm rebuild bcrypt --build-from-source",
     "start": "node --env-file=.env --watch index.js"
   },
   "keywords": [],
