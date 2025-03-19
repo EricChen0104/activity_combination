@@ -5,8 +5,15 @@ import mongoose from "mongoose";
 
 export const getPost = async (req, res) => {
   console.log("getting post");
-  const posts = await Post.find();
-  res.status(200).json(posts);
+  try {
+    const posts = await Post.find().lean(); // Use .lean() for faster queries
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to get posts", error: error.message });
+  }
 };
 
 export const searchPost = async (req, res) => {
