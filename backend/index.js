@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173"; // Use environment variable, default to localhost
+console.log("FRONTEND_URL:", frontendURL); // Add this line
 
 // Production CORS configuration (recommended)
 app.use(
