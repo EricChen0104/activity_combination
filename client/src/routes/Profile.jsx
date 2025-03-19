@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "../components/homepage/Card";
-import Profile_card from "../components/profile/profile_card";
+import Profile_card from "../components/profile/Profile_card";
 
 import { Toaster } from "react-hot-toast";
 import Saved_list from "../components/profile/Saved_list";
