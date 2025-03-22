@@ -24,7 +24,7 @@ app.use(
 
 // });
 app.get("/", (req, res) => {
-  connectDB();
+  // connectDB();
   res.status(200).send("API is running");
 });
 app.use("/users", userRouter);
@@ -42,7 +42,7 @@ app.use((error, req, res, next) => {
 const port = process.env.PORT || 3000; // Use environment variable for port
 console.log(port);
 
-app.listen(port, () => {
+app.listen("https://activity-combination.vercel.app", () => {
   connectDB();
   console.log("Server is running");
 });
