@@ -42,9 +42,18 @@ app.use((error, req, res, next) => {
 const port = process.env.PORT || 3000; // Use environment variable for port
 console.log(port);
 
-app.listen("https://activity-combination.vercel.app", () => {
-  connectDB();
-  console.log("Server is running");
+// app.listen("https://activity-combination.vercel.app", () => {
+//   connectDB();
+//   console.log("Server is running");
+// });
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default app;
