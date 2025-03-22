@@ -8,25 +8,21 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173"; // Use environment variable, default to localhost
-console.log("FRONTEND_URL:", frontendURL); // Add this line
+const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173";
+console.log("FRONTEND_URL:", frontendURL);
 
-// Production CORS configuration (recommended)
 app.use(
   cors({
-    origin: frontendURL, //  Allow requests from this origin only
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers (important if you're using Authorization headers)
+    origin: frontendURL,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-// app.get("/test", (req, res) => {
-//   res.status(200).send("it works!");
 
-// });
 app.get("/", (req, res) => {
-  // connectDB();
   res.status(200).send("API is running");
 });
+
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 
@@ -35,25 +31,20 @@ app.use((error, req, res, next) => {
   res.json({
     message: error.message || "Something went wrong!!",
     status: error.status,
-    stack: error.stack,
+    stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
   });
 });
 
-// const port = process.env.PORT || 3000; // Use environment variable for port
-// console.log(port);
-
-// app.listen("https://activity-combination.vercel.app", () => {
-//   connectDB();
-//   console.log("Server is running");
-// });
-
+// Lazy database connection
+let isConnected = false;
 app.use(async (req, res, next) => {
-  try {
+  if (!isConnected) {
+    console.log("Attempting DB connection:", new Date());
     await connectDB();
-    next();
-  } catch (error) {
-    next(error);
+    console.log("DB connected:", new Date());
+    isConnected = true;
   }
+  next();
 });
 
 export default app;
