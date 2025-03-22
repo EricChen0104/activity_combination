@@ -24,6 +24,7 @@ app.use(
 
 // });
 app.get("/", (req, res) => {
+  connectDB();
   res.status(200).send("API is running");
 });
 app.use("/users", userRouter);
