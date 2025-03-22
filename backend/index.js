@@ -21,6 +21,7 @@ app.use(
 );
 // app.get("/test", (req, res) => {
 //   res.status(200).send("it works!");
+
 // });
 app.get("/", (req, res) => {
   res.status(200).send("API is running");
@@ -38,6 +39,7 @@ app.use((error, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000; // Use environment variable for port
+console.log(port);
 
 app.listen(port, () => {
   connectDB();
