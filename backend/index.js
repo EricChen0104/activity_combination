@@ -4,6 +4,8 @@ import postRouter from "./routes/post.route.js";
 import connectDB from "./lib/connectDB.js";
 import cors from "cors";
 
+import { MongoClient } from "mongodb";
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -20,29 +22,35 @@ app.use(
 );
 
 app.get("/", async (req, res) => {
-  // connectDB();
-  try {
-    // 連接到資料庫
-    const db = await connectDB();
+  const uri =
+    "mongodb+srv://vercel-admin-user:dWWcota0xcQ7XNRU@cluster0.luzul.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  const client = new MongoClient(uri);
 
-    // 從 "posts" 集合中抓取所有資料
-    const postsCollection = db.collection("posts");
-    const posts = await postsCollection.find({}).toArray(); // 查詢所有資料並轉為陣列
+  async function run() {
+    try {
+      // 連接到資料庫
+      await client.connect();
+      const database = client.db("myFirstDatabase");
+      const postsCollection = database.collection("posts");
 
-    // 回傳資料
-    res.status(200).json({
-      message: "API is running",
-      data: posts,
-    });
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    res.status(500).send("Internal Server Error");
-  } finally {
-    // 關閉資料庫連線（可選）
-    await client.close();
-    console.log("MongoDB connection closed");
+      // 查詢所有 posts
+      const allPosts = await postsCollection.find({}).toArray(); // 使用空條件 {} 查詢所有資料
+
+      // 回傳結果
+      res.status(200).json({
+        message: "Posts retrieved successfully",
+        data: allPosts,
+      });
+    } catch (err) {
+      console.error("Error:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+    } finally {
+      // 關閉連線
+      await client.close();
+    }
   }
-  res.status(200).send("API is running");
+
+  await run().catch(console.dir);
 });
 
 app.use("/users", userRouter);
@@ -57,15 +65,19 @@ app.use((error, req, res, next) => {
   });
 });
 
-let isConnected = false;
-app.use(async (req, res, next) => {
-  if (!isConnected) {
-    console.log("Attempting DB connection:", new Date());
-    await connectDB();
-    console.log("DB connected:", new Date());
-    isConnected = true;
-  }
-  next();
+// let isConnected = false;
+// app.use(async (req, res, next) => {
+//   if (!isConnected) {
+//     console.log("Attempting DB connection:", new Date());
+//     await connectDB();
+//     console.log("DB connected:", new Date());
+//     isConnected = true;
+//   }
+//   next();
+// });
+
+app.listen(3000, () => {
+  console.log("api running");
 });
 
 export default app;

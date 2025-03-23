@@ -8,7 +8,7 @@ const connectDB = async () => {
     );
 
     // 監聽連線成功事件
-    mongoose.connection.on("connected", () => {
+    mongoose.connection.on("connected", async () => {
       console.log("MongoDB is connected successfully");
     });
 
