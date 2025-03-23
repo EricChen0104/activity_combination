@@ -20,6 +20,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
+  connectDB();
   res.status(200).send("API is running");
 });
 
@@ -35,7 +36,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Lazy database connection
 let isConnected = false;
 app.use(async (req, res, next) => {
   if (!isConnected) {
