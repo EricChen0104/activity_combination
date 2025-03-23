@@ -20,7 +20,7 @@ app.use(
 );
 
 app.get("/", async (req, res) => {
-  connectDB();
+  // connectDB();
   try {
     // 連接到資料庫
     const db = await connectDB();
