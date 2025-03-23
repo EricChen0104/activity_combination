@@ -24,26 +24,26 @@ app.use(
   })
 );
 
-// app.get("/", async (req, res) => {
-//   try {
-//     // 確保資料庫已連線
-//     if (mongoose.connection.readyState !== 1) {
-//       await connectDB();
-//     }
+app.get("/", async (req, res) => {
+  try {
+    // 確保資料庫已連線
+    if (mongoose.connection.readyState !== 1) {
+      await connectDB();
+    }
 
-//     // 查詢所有 posts
-//     const allPosts = await Post.find({}); // 使用 Mongoose 的 find 方法
+    // 查詢所有 posts
+    const allPosts = await Post.find({}); // 使用 Mongoose 的 find 方法
 
-//     // 回傳結果
-//     res.status(200).json({
-//       message: "Posts retrieved successfully",
-//       data: allPosts,
-//     });
-//   } catch (err) {
-//     console.error("Error:", err);
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// });
+    // 回傳結果
+    res.status(200).json({
+      message: "Posts retrieved successfully",
+      data: allPosts,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
