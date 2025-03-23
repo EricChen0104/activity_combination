@@ -7,7 +7,7 @@ import cors from "cors";
 import { MongoClient } from "mongodb";
 
 import mongoose from "mongoose";
-// import Post from "./models/post.model.js";
+import Post from "./models/post.model.js";
 
 const app = express();
 app.use(express.json());
@@ -69,9 +69,9 @@ app.use((error, req, res, next) => {
 // });
 
 app.listen(3000, async () => {
-  if (mongoose.connection.readyState !== 1) {
-    await connectDB();
-  }
+  // if (mongoose.connection.readyState !== 1) {
+  //   await connectDB();
+  // }
   console.log("api running");
 });
 
